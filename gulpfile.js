@@ -2,15 +2,19 @@ var gulp = require('gulp');
 var babel = require('gulp-babel');
 var webpackStream = require('webpack-stream');
 var del = require('del');
+var eslint = require('gulp-eslint');
 
 gulp.task('babel', () => {
-  return gulp.src('src/core/*.js')
+  return gulp.src(['src/core/*.js', 'src/app.js'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
     .pipe(babel())
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('tmp'));
 });
 
 gulp.task('webpack', ['babel'], () => {
-  return gulp.src('dist/*.js')
+  return gulp.src('tmp/*.js')
     .pipe(webpackStream({
       output: {
         filename: 'bundle.js'
@@ -20,5 +24,5 @@ gulp.task('webpack', ['babel'], () => {
 });
 
 gulp.task('default', ['webpack'], () => {
-  del(['dist/GitHubAPI.js']);
+  del(['tmp']);
 });

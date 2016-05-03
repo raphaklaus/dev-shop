@@ -1,10 +1,11 @@
-// 'use strict'
-var angular = require('angular');
+var axios = require('axios');
 
-class GitHubAPI{
-  static fake(angular){
-    console.log(angular);
+module.exports = class GitHubAPI{
+  static getOrganization(name){
+    return axios.get(`https://api.github.com/orgs/${name}/members`);
   }
-}
 
-GitHubAPI.fake(angular);
+  static getProfileStatistics(user){
+    return axios.get(`https://api.github.com/users/${user}`);
+  }
+};
