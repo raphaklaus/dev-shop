@@ -31,11 +31,9 @@ input[type='number'], input[type='text']{
 
 @media (max-width: 40rem) {
   .developer-photo{
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto 20px auto;
     width: 90%;
     height: 90%;
-    margin-bottom: 20px;
   }
 
   .developers{

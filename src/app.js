@@ -3,7 +3,7 @@ const angular = require('angular'),
 
 var app = angular.module('dev-shop', [require('angular-route')]);
 
-app.controller('DevelopersPanel', function($scope) {
+app.controller('DevelopersPanel', function($scope, $location) {
   var developersPanel = this;
   developersPanel.users = [];
   developersPanel.cart = [];
@@ -61,6 +61,10 @@ app.controller('DevelopersPanel', function($scope) {
       calculateDiscount();
       developersPanel.coupon.used = true;
     }
+  };
+
+  developersPanel.checkout = () => {
+    $location.path('/checkout');
   };
 });
 
