@@ -5,24 +5,24 @@ const gulp = require('gulp'),
   eslint = require('gulp-eslint');
 
 gulp.task('babel', () => {
-  return gulp.src(['src/core/*.js', 'src/app.js'])
+  return gulp.src(['public/src/core/*.js', 'public/src/app.js', 'server/app.js'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
     .pipe(babel())
-    .pipe(gulp.dest('tmp'));
+    .pipe(gulp.dest('public/tmp'));
 });
 
 gulp.task('webpack', ['babel'], () => {
-  return gulp.src('tmp/*.js')
+  return gulp.src('public/tmp/*.js')
     .pipe(webpackStream({
       output: {
         filename: 'bundle.js'
       }
     }))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('public/dist'));
 });
 
 gulp.task('default', ['webpack'], () => {
-  del(['tmp']);
+  del(['public/tmp']);
 });

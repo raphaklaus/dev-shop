@@ -1,0 +1,51 @@
+h1{
+  margin-bottom: 0;
+}
+
+.title{
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.developer-photo{
+  width: 80px;
+  height: 80px;
+}
+
+.developers{
+  display: flex;
+  justify-content: space-between;;
+  flex-direction: row;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.developer-info{
+  width: 100%;
+  height: 200px;
+}
+
+input[type='number'], input[type='text']{
+  width: auto;
+}
+
+@media (max-width: 40rem) {
+  .developer-photo{
+    margin: 0 auto 20px auto;
+    width: 90%;
+    height: 90%;
+  }
+
+  .developers{
+    flex-direction: column;
+  }
+}
+
+.loader{
+  display: flex;
+  justify-content: center;
+}
+
+.coupon{
+  padding: 10px;
+}
