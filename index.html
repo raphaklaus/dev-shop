@@ -32,7 +32,10 @@
         </strong>
         <small ng-bind="user.login"></small>
         <span ng-bind="(user.price | currency)"></span>
-        <button class="button button-outline" ng-click="developersPanel.addToCart(user)">Add to cart</button>
+        <button class="button" ng-click="developersPanel.addToCart(user)">
+          <i class="fa fa-shopping-cart"></i>
+          Add to cart
+        </button>
       </div>
 
       <h2>
@@ -47,11 +50,24 @@
         <small ng-bind="user.login"></small>
         <span ng-bind="(user.total | currency)"></span>
         <input type="number" ng-model="user.hoursToWork" ng-change="developersPanel.calculateHours(user)" placeholder="Hours to work" min="1" value="1">
-        <button class="button button-outline" ng-click="developersPanel.removeFromCart(user)">Remove from cart</button>
+        <button class="button button-outline" ng-click="developersPanel.removeFromCart(user)">
+          <i class="fa fa-trash"></i>
+          Remove from cart
+        </button>
+      </div>
+
+      <div class="coupon" ng-show="developersPanel.cart.length">
+        <input type="text" placeholder="Discount coupon" ng-model="developersPanel.coupon.code" ng-disabled="developersPanel.coupon.used">
+        <button type="button" ng-click="developersPanel.useCoupon()" ng-disabled="developersPanel.coupon.used">Use!</button>
       </div>
 
       <hr>
 
+      <strong ng-show="developersPanel.coupon.used">
+        Coupon:
+        <small ng-bind="(developersPanel.coupon.value | currency)"></small>
+      </strong>
+      <br>
       <strong>
         Total:
         <small ng-bind="(developersPanel.total | currency)"></small>

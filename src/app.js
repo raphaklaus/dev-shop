@@ -8,7 +8,14 @@ app.controller('DevelopersPanel', function($scope) {
   developersPanel.users = [];
   developersPanel.cart = [];
   developersPanel.total = 0;
+  developersPanel.coupon = {};
   developersPanel.usersLoading = true;
+
+  var calculateDiscount = () => {
+    developersPanel.total = (developersPanel.total - developersPanel.coupon.value < 0) ?
+      0 : developersPanel.total - developersPanel.coupon.value;
+  };
+
   var developers = new Developers();
   developers.getMembersFromOrganization('fontwr')
     .then(() => developers.getStatistics())
@@ -24,12 +31,19 @@ app.controller('DevelopersPanel', function($scope) {
     user.total = user.price;
     developersPanel.total += user.total;
     user.hoursToWork = 1;
+
+    if (developersPanel.cart.length === 0 && developersPanel.coupon.used)
+      calculateDiscount();
+
     developersPanel.cart.push(user);
     developersPanel.users.splice(developersPanel.users.indexOf(user), 1);
   };
 
   developersPanel.removeFromCart = (user) => {
     developersPanel.total -= user.total;
+    developersPanel.total = (developersPanel.total < 0) ?
+      0 : developersPanel.total;
+
     developersPanel.users.push(user);
     developersPanel.cart.splice(developersPanel.cart.indexOf(user), 1);
   };
@@ -39,6 +53,13 @@ app.controller('DevelopersPanel', function($scope) {
     user.total = user.price * (user.hoursToWork || 0);
     developersPanel.total -= previousTotal;
     developersPanel.total += user.total;
-    console.log(user.hoursToWork);
+  };
+
+  developersPanel.useCoupon = () => {
+    developersPanel.coupon.value = 100;
+    if (developersPanel.coupon.code === 'SHIPIT'){
+      calculateDiscount();
+      developersPanel.coupon.used = true;
+    }
   };
 });

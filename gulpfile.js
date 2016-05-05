@@ -1,8 +1,8 @@
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var webpackStream = require('webpack-stream');
-var del = require('del');
-var eslint = require('gulp-eslint');
+const gulp = require('gulp'),
+  babel = require('gulp-babel'),
+  webpackStream = require('webpack-stream'),
+  del = require('del'),
+  eslint = require('gulp-eslint');
 
 gulp.task('babel', () => {
   return gulp.src(['src/core/*.js', 'src/app.js'])
