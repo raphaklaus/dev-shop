@@ -66,7 +66,12 @@ app.controller('DevelopersPanel', function($scope, $location) {
   };
 
   developersPanel.checkout = () => {
-    checkout.save(developersPanel.cart)
+    var cart = {
+      discount: developersPanel.coupon.value,
+      items: developersPanel.cart
+    };
+
+    checkout.save(cart)
       .then($location.path('/checkout'));
   };
 });
@@ -74,10 +79,10 @@ app.controller('DevelopersPanel', function($scope, $location) {
 app.controller('CheckoutController', function(){
   var checkout = new Checkout();
   var checkOutController = this;
-  checkOutController.developers = [];
+  checkOutController.cart = [];
 
   checkout.get().then((response) => {
-    checkOutController.developers = response;
+    checkOutController.cart = response;
   });
 });
 
