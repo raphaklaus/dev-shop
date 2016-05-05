@@ -1,0 +1,83 @@
+<section>
+  <article class="title">
+    <h1>
+      <i class="fa fa-code fa-1x" aria-hidden="true"></i>
+      Developer's Shop
+    </h1>
+    <span>Get your dev now or never!</span>
+  </article>
+
+  <div class="loader" ng-show="developersPanel.usersLoading" aria-hidden="true">
+    <i class="fa fa-refresh fa-4x fa-spin"></i>
+  </div>
+</section>
+
+<section>
+    <h2>Developers available:</h2>
+    <article class="developers" ng-repeat="user in developersPanel.users">
+      <img class="developer-photo" ng-src="{{user.avatarUrl}}" alt="Foto do Desenvolvedor"/>
+      <strong>
+        <span ng-bind="user.name"></span>
+      </strong>
+      <small ng-bind="user.login"></small>
+      <span ng-bind="(user.price | currency)"></span>
+      <button class="button" ng-click="developersPanel.addToCart(user)">
+        <i class="fa fa-shopping-cart"></i>
+        Add to cart
+      </button>
+    </article>
+</section>
+
+<section>
+    <h2>
+      Your dev's cart
+      <small ng-bind="developersPanel.cart.length"></small>
+    </h2>
+
+    <article class="developers" ng-repeat="user in developersPanel.cart">
+      <strong>
+        <span ng-bind="user.name"></span>
+      </strong>
+      <small ng-bind="user.login"></small>
+      <span ng-bind="(user.total | currency)"></span>
+      <input type="number" ng-model="user.hoursToWork" ng-change="developersPanel.calculateHours(user)" placeholder="Hours to work" min="1" value="1">
+      <button class="button button-outline" ng-click="developersPanel.removeFromCart(user)">
+        <i class="fa fa-trash"></i>
+        Remove from cart
+      </button>
+    </article>
+</section>
+
+<section>
+    <article class="coupon" ng-show="developersPanel.cart.length">
+      <input type="text" placeholder="Discount coupon" ng-model="developersPanel.coupon.code" ng-disabled="developersPanel.coupon.used">
+      <button type="button" ng-click="developersPanel.useCoupon()" ng-disabled="developersPanel.coupon.used">Use!</button>
+    </article>
+
+    <hr>
+</section>
+
+<section class="float-right">
+    <h2>Cart total</h2>
+    <article>
+      <p>
+        <i ng-show="developersPanel.coupon.used">
+          Coupon discount:
+          <small ng-bind="(developersPanel.coupon.value | currency)"></small>
+        </i>
+      </p>
+
+      <p>
+        <strong>
+          Total:
+          <small ng-bind="(developersPanel.total | currency)"></small>
+        </strong>
+      </p>
+
+      <button type="button" ng-click="developersPanel.checkout()" ng-disabled="developersPanel.cart.length === 0">
+        <i class="fa fa-check"></i>
+        Check out
+      </button>
+    </article>
+  </article>
+</section>
