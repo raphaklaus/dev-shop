@@ -1,0 +1,72 @@
+<div class="title">
+  <h1>
+    <i class="fa fa-code fa-1x" aria-hidden="true"></i>
+    Developer's Shop
+  </h1>
+  <span>Get your dev now or never!</span>
+</div>
+
+<div class="loader" ng-show="developersPanel.usersLoading">
+  <i class="fa fa-refresh fa-4x fa-spin" aria-hidden="true"></i>
+</div>
+
+<div class="container">
+  <div class="developers" ng-repeat="user in developersPanel.users">
+    <img class="developer-photo" ng-src="{{user.avatarUrl}}" alt="Foto do Desenvolvedor"/>
+    <strong>
+      <span ng-bind="user.name"></span>
+    </strong>
+    <small ng-bind="user.login"></small>
+    <span ng-bind="(user.price | currency)"></span>
+    <button class="button" ng-click="developersPanel.addToCart(user)">
+      <i class="fa fa-shopping-cart"></i>
+      Add to cart
+    </button>
+  </div>
+
+  <h2>
+    Your dev's cart
+    <small ng-bind="developersPanel.cart.length"></small>
+  </h2>
+
+  <div class="developers" ng-repeat="user in developersPanel.cart">
+    <strong>
+      <span ng-bind="user.name"></span>
+    </strong>
+    <small ng-bind="user.login"></small>
+    <span ng-bind="(user.total | currency)"></span>
+    <input type="number" ng-model="user.hoursToWork" ng-change="developersPanel.calculateHours(user)" placeholder="Hours to work" min="1" value="1">
+    <button class="button button-outline" ng-click="developersPanel.removeFromCart(user)">
+      <i class="fa fa-trash"></i>
+      Remove from cart
+    </button>
+  </div>
+
+  <div class="coupon" ng-show="developersPanel.cart.length">
+    <input type="text" placeholder="Discount coupon" ng-model="developersPanel.coupon.code" ng-disabled="developersPanel.coupon.used">
+    <button type="button" ng-click="developersPanel.useCoupon()" ng-disabled="developersPanel.coupon.used">Use!</button>
+  </div>
+
+  <hr>
+
+  <div class="float-right">
+    <p>
+      <i ng-show="developersPanel.coupon.used">
+        Coupon discount:
+        <small ng-bind="(developersPanel.coupon.value | currency)"></small>
+      </i>
+    </p>
+
+    <p>
+      <strong>
+        Total:
+        <small ng-bind="(developersPanel.total | currency)"></small>
+      </strong>
+    </p>
+
+    <button type="button button-block">
+      <i class="fa fa-check"></i>
+      Check out
+    </button>
+  </div>
+</div>

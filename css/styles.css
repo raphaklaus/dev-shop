@@ -17,6 +17,7 @@ h1{
   justify-content: space-between;;
   flex-direction: row;
   padding: 10px;
+  margin-bottom: 20px;
 }
 
 .developer-info{
@@ -47,4 +48,8 @@ input[type='number'], input[type='text']{
 .loader{
   display: flex;
   justify-content: center;
+}
+
+.coupon{
+  padding: 10px;
 }

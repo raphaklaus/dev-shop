@@ -1,7 +1,7 @@
 const angular = require('angular'),
   Developers = require('./Developers');
 
-var app = angular.module('dev-shop', []);
+var app = angular.module('dev-shop', [require('angular-route')]);
 
 app.controller('DevelopersPanel', function($scope) {
   var developersPanel = this;
@@ -62,4 +62,18 @@ app.controller('DevelopersPanel', function($scope) {
       developersPanel.coupon.used = true;
     }
   };
+});
+
+app.config(($routeProvider, $locationProvider) => {
+  $locationProvider.html5Mode(true);
+
+  $routeProvider
+    .when('/', {
+      templateUrl: 'templates/main.html',
+      controller: 'DevelopersPanel'
+    })
+    .when('/checkout', {
+      templateUrl: 'templates/checkout.html',
+      controller: 'Checkout'
+    });
 });
