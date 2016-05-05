@@ -1,17 +1,31 @@
-var axios = require('axios');
+const axios = require('axios');
 
 module.exports = class GitHubAPI{
-  static getOrganization(name){
-    return axios.get(`https://api.github.com/orgs/${name}/members`);
+  constructor(){
+    var token;
+
+    try {
+      token = require('./APIToken');
+    } catch (error){
+      token = null;
+    }
+
+    this.tokenParameter = (token) ? '?access_token=' + token : '';
   }
 
-  static getUser(user){
-    return axios.get(`https://api.github.com/users/${user}`);
+  getOrganization(name){
+    return axios
+      .get(`https://api.github.com/orgs/${name}/members${this.tokenParameter}`);
   }
 
-  static getUserStars(user){
+  getUser(user){
+    return axios
+      .get(`https://api.github.com/users/${user}${this.tokenParameter}`);
+  }
+
+  getUserStars(user){
     return new Promise((resolve, reject) => {
-      axios.get(`https://api.github.com/users/${user}/starred`)
+      axios.get(`https://api.github.com/users/${user}/starred${this.tokenParameter}`)
         .then((response) => {
           var object = {
             'login': user
