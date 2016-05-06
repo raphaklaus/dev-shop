@@ -35,5 +35,8 @@
     "gulp-uglifycss": "^1.0.6",
     "subdomain": "^1.2.0",
     "underscore": "^1.8.3"
+  },
+  "engines": {
+    "node": "4.4.0"
   }
 }
