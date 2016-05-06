@@ -9,7 +9,6 @@ var developers = {};
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
-app.use(subdomain({base : 'localhost', removeWWW : true}));
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', '*');
   response.header('Access-Control-Allow-Headers',
