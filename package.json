@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "protractor test/e2e.js"
   },
   "repository": {
     "type": "git",
