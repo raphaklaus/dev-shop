@@ -1,5 +1,4 @@
 const express = require('express'),
-  subdomain = require('subdomain'),
   bodyParser = require('body-parser');
 
 var app = express(),
@@ -18,12 +17,12 @@ app.use((request, response, next) => {
   next();
 });
 
-app.post('/subdomain/api/checkout', (request, response) => {
+app.post('/api/checkout', (request, response) => {
   developers = request.body;
   response.json({message: 'Check it out!'});
 });
 
-app.get('/subdomain/api/checkout', (request, response) => {
+app.get('/api/checkout', (request, response) => {
   response.json(developers);
 });
 

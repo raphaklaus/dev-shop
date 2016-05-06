@@ -1,15 +1,11 @@
 const axios = require('axios');
 
 module.exports = class Checkout {
-  constructor(){
-    this.host = location.host;
-  }
-
   get(){
-    return axios.get(`https://api.${this.host}/checkout`);
+    return axios.get(`/api/checkout`);
   }
 
   save(cart){
-    return axios.post(`https://api.${this.host}/checkout`, cart);
+    return axios.post(`/api/checkout`, cart);
   }
 };

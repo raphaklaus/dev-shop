@@ -33,7 +33,6 @@
     "gulp-ng-annotate": "^2.0.0",
     "gulp-uglify": "^1.5.3",
     "gulp-uglifycss": "^1.0.6",
-    "subdomain": "^1.2.0",
     "underscore": "^1.8.3"
   },
   "engines": {
