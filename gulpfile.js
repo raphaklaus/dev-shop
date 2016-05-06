@@ -2,7 +2,10 @@ const gulp = require('gulp'),
   babel = require('gulp-babel'),
   webpackStream = require('webpack-stream'),
   del = require('del'),
-  eslint = require('gulp-eslint');
+  eslint = require('gulp-eslint'),
+  uglify = require('gulp-uglify'),
+  uglifyCSS = require('gulp-uglifycss'),
+  ngAnnotate = require('gulp-ng-annotate');
 
 gulp.task('eslint', () => {
   return gulp.src(['public/src/core/*.js', 'public/src/app.js', 'server.js',
@@ -13,9 +16,10 @@ gulp.task('eslint', () => {
 });
 
 gulp.task('babel', ['eslint'], () => {
-  return gulp.src(['public/src/core/*.js', 'public/src/app.js'])
-    .pipe(babel())
-    .pipe(gulp.dest('public/tmp'));
+  return gulp.src(['public/src/core/*.js',
+    'public/src/app.js'])
+      .pipe(babel())
+      .pipe(gulp.dest('public/tmp'));
 });
 
 gulp.task('webpack', ['babel'], () => {
@@ -28,6 +32,21 @@ gulp.task('webpack', ['babel'], () => {
     .pipe(gulp.dest('public/dist'));
 });
 
-gulp.task('default', ['webpack'], () => {
+gulp.task('uglify', ['webpack'], () => {
+  return gulp.src('public/dist/bundle.js')
+    .pipe(ngAnnotate({
+      add: true
+    }))
+    .pipe(uglify())
+    .pipe(gulp.dest('public/dist'));
+});
+
+gulp.task('uglify-css', () => {
+  return gulp.src('public/css/styles.css')
+    .pipe(uglifyCSS())
+    .pipe(gulp.dest('public/dist'));
+});
+
+gulp.task('default', ['uglify', 'uglify-css'], () => {
   del(['public/tmp']);
 });

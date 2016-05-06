@@ -5,7 +5,7 @@ module.exports = class GitHubAPI{
     var token;
 
     try {
-      token = require('./APIToken');
+      token = null;
     } catch (error){
       token = null;
     }
