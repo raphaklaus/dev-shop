@@ -1,12 +1,13 @@
 var MainTasks = require('./tasks/MainTasks.js');
 
 describe('Dev Shop', () => {
+  var EC = protractor.ExpectedConditions;
+
   beforeEach(() => {
     browser.get('http://localhost');
   });
 
   it('should add devs, remove one, and apply coupon', () => {
-    var developersInCart, EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
       MainTasks.addToCart()
         .checkCartAmount(1)
@@ -20,7 +21,6 @@ describe('Dev Shop', () => {
   });
 
   it('should add devs, and apply coupon', () => {
-    var developersInCart, EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
       MainTasks.addToCart()
         .checkCartAmount(1)
@@ -32,7 +32,6 @@ describe('Dev Shop', () => {
   });
 
   it('should add devs', () => {
-    var developersInCart, EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
       MainTasks.addToCart()
         .checkCartAmount(1)
@@ -43,7 +42,6 @@ describe('Dev Shop', () => {
   });
 
   it('should add devs, remove one, and apply coupon', () => {
-    var developersInCart, EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
       MainTasks.addToCart()
         .checkCartAmount(1)
@@ -56,7 +54,6 @@ describe('Dev Shop', () => {
   });
 
   it('should add devs and remove them', () => {
-    var developersInCart, EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
       MainTasks.addToCart()
         .checkCartAmount(1)
@@ -70,7 +67,6 @@ describe('Dev Shop', () => {
   });
 
   it('should not add devs', () => {
-    var developersInCart, EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
       MainTasks.checkCartAmount(0)
         .checkTotalValue('$0.00');

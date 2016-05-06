@@ -25,7 +25,8 @@ module.exports = class GitHubAPI{
 
   getUserStars(user){
     return new Promise((resolve, reject) => {
-      axios.get(`https://api.github.com/users/${user}/starred${this.tokenParameter}`)
+      axios.get(`https://api.github.com/users/` +
+        `${user}/starred${this.tokenParameter}`)
         .then((response) => {
           var object = {
             'login': user

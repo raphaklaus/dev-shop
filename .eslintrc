@@ -2,8 +2,10 @@
     "env": {
         "es6": true,
         "node": true,
+        "browser": true,
+        "protractor": true,
         "mocha": true,
-        "browser": true
+        "jasmine": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {

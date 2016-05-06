@@ -1,9 +1,9 @@
-var gitHubAPI = require('./GitHubAPI');
+var GitHubAPI = require('./GitHubAPI');
 var _ = require('underscore');
 
 module.exports = class Developers {
   constructor(){
-    this.gitHubAPI = new gitHubAPI();
+    this.gitHubAPI = new GitHubAPI();
     this.members = [];
     this.users = [];
   }
