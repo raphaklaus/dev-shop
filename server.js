@@ -26,8 +26,4 @@ app.get('/subdomain/api/checkout', (request, response) => {
   response.json(developers);
 });
 
-app.get('/', (request, response) => {
-  response.sendFile('/index.html', {root: __dirname});
-});
-
 app.listen(port);
