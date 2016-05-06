@@ -6,10 +6,10 @@ module.exports = class Checkout {
   }
 
   get(){
-    return axios.get(`http://api.${this.host}/checkout`);
+    return axios.get(`https://api.${this.host}/checkout`);
   }
 
   save(cart){
-    return axios.post(`http://api.${this.host}/checkout`, cart);
+    return axios.post(`https://api.${this.host}/checkout`, cart);
   }
 };
