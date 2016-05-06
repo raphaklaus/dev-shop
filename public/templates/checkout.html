@@ -1,9 +1,9 @@
 <section ng-controller="CheckoutController as checkout">
   <section>
     <h3>
-      One more step to get your developers!
-      <small>confirmation</small>
+      Thank you! Your order was received
     </h3>
+    <span>Order details below:</span>
     <article class="developers" ng-repeat="user in checkout.cart.items">
       <strong>
         <span ng-bind="user.name"></span>
@@ -12,9 +12,24 @@
       <span ng-bind="(user.total | currency)"></span>
       <span ng-bind="user.hoursToWork"></span>
     </article>
-    <button class="button button-outline" ng-click="checkout.removeFromCart(user)">
-      <i class=""></i>
-      Finish
-    </button>
+  </section>
+
+  <hr>
+
+  <section class="float-right">
+    <article>
+      <p>
+        <i ng-show="checkout.cart.discount">
+          Coupon discount:
+          <small ng-bind="(checkout.cart.discount | currency)"></small>
+        </i>
+      </p>
+      <p>
+        <strong>
+          Total:
+          <small ng-bind="(checkout.total | currency)"></small>
+        </strong>
+      </p>
+    </article>
   </section>
 </section>

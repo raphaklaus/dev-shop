@@ -4,17 +4,17 @@ const angular = require('angular'),
 
 var app = angular.module('dev-shop', [require('angular-route')]);
 
-app.controller('DevelopersPanel', function($scope, $location) {
-  var developersPanel = this;
-  developersPanel.users = [];
-  developersPanel.cart = [];
-  developersPanel.total = 0;
-  developersPanel.coupon = {};
-  developersPanel.usersLoading = true;
+app.controller('DevelopersShopController', function($scope, $rootScope, $location) {
+  var vm = this;
+  vm.users = [];
+  vm.cart = [];
+  vm.total = 0;
+  vm.coupon = {};
+  vm.usersLoading = true;
 
   var calculateDiscount = () => {
-    developersPanel.total = (developersPanel.total - developersPanel.coupon.value < 0) ?
-      0 : developersPanel.total - developersPanel.coupon.value;
+    vm.total = (vm.total - vm.coupon.value < 0) ?
+      0 : vm.total - vm.coupon.value;
   };
 
   var checkout = new Checkout();
@@ -23,66 +23,80 @@ app.controller('DevelopersPanel', function($scope, $location) {
     .then(() => developers.getStatistics())
     .then(() => developers.getStars())
     .then(() => {
-      developersPanel.usersLoading = false;
+      vm.usersLoading = false;
       developers.getPrice(developers.users);
-      developersPanel.users = developers.users;
+      vm.users = developers.users;
       $scope.$apply();
     });
 
-  developersPanel.addToCart = (user) => {
+  vm.addToCart = (user) => {
     user.total = user.price;
-    developersPanel.total += user.total;
+    vm.total += user.total;
     user.hoursToWork = 1;
 
-    if (developersPanel.cart.length === 0 && developersPanel.coupon.used)
+    if (vm.cart.length === 0 && vm.coupon.used)
       calculateDiscount();
 
-    developersPanel.cart.push(user);
-    developersPanel.users.splice(developersPanel.users.indexOf(user), 1);
+    vm.cart.push(user);
+    vm.users.splice(vm.users.indexOf(user), 1);
   };
 
-  developersPanel.removeFromCart = (user) => {
-    developersPanel.total -= user.total;
-    developersPanel.total = (developersPanel.total < 0) ?
-      0 : developersPanel.total;
+  vm.removeFromCart = (user) => {
+    vm.total -= user.total;
+    vm.total = (vm.total < 0) ?
+      0 : vm.total;
 
-    developersPanel.users.push(user);
-    developersPanel.cart.splice(developersPanel.cart.indexOf(user), 1);
+    vm.users.push(user);
+    vm.cart.splice(vm.cart.indexOf(user), 1);
   };
 
-  developersPanel.calculateHours = (user) => {
+  vm.calculateHours = (user) => {
     var previousTotal = user.total;
     user.total = user.price * (user.hoursToWork || 0);
-    developersPanel.total -= previousTotal;
-    developersPanel.total += user.total;
+    vm.total -= previousTotal;
+    vm.total += user.total;
   };
 
-  developersPanel.useCoupon = () => {
-    developersPanel.coupon.value = 100;
-    if (developersPanel.coupon.code === 'SHIPIT'){
+  vm.useCoupon = () => {
+    vm.coupon.value = 100;
+    if (vm.coupon.code === 'SHIPIT'){
       calculateDiscount();
-      developersPanel.coupon.used = true;
+      vm.coupon.used = true;
     }
   };
 
-  developersPanel.checkout = () => {
+  vm.checkout = () => {
     var cart = {
-      discount: developersPanel.coupon.value,
-      items: developersPanel.cart
+      discount: vm.coupon.value,
+      items: vm.cart
     };
 
     checkout.save(cart)
-      .then($location.path('/checkout'));
+      .then(function() {
+        $location.path('/checkout');
+        $rootScope.$apply();
+      });
   };
 });
 
-app.controller('CheckoutController', function(){
+app.controller('CheckoutController', function($scope){
   var checkout = new Checkout();
-  var checkOutController = this;
-  checkOutController.cart = [];
+  var vm = this;
+  vm.cart = {};
+  vm.total = 0;
 
   checkout.get().then((response) => {
-    checkOutController.cart = response;
+    for (var user of response.data.items)
+      vm.total += user.total;
+
+    if (response.data.discount){
+      vm.total -= response.data.discount;
+      console.log(vm.total);
+    }
+
+
+    vm.cart = response.data;
+    $scope.$apply();
   });
 });
 
@@ -91,11 +105,9 @@ app.config(($routeProvider, $locationProvider) => {
 
   $routeProvider
     .when('/', {
-      templateUrl: 'templates/main.html',
-      controller: 'DevelopersPanel'
+      templateUrl: 'templates/main.html'
     })
     .when('/checkout', {
-      templateUrl: 'templates/checkout.html',
-      controller: 'CheckoutController'
+      templateUrl: 'templates/checkout.html'
     });
 });

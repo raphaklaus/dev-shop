@@ -1,47 +1,47 @@
-<section ng-controller="DevelopersPanel as developersPanel">
-  <div class="loader" ng-show="developersPanel.usersLoading" aria-hidden="true">
+<section ng-controller="DevelopersShopController as developersShop">
+  <div class="loader" ng-show="developersShop.usersLoading" aria-hidden="true">
     <i class="fa fa-refresh fa-4x fa-spin"></i>
   </div>
 
-  <section>
+  <section class="developers-available">
     <h2>Developers available:</h2>
-    <article class="developers" ng-repeat="user in developersPanel.users">
+    <article class="developers" ng-repeat="user in developersShop.users">
       <img class="developer-photo" ng-src="{{user.avatarUrl}}" alt="Foto do Desenvolvedor"/>
       <strong>
         <span ng-bind="user.name"></span>
       </strong>
       <small ng-bind="user.login"></small>
       <span ng-bind="(user.price | currency)"></span>
-      <button class="button" ng-click="developersPanel.addToCart(user)">
+      <button class="button" ng-click="developersShop.addToCart(user)">
         <i class="fa fa-shopping-cart"></i>
         Add to cart
       </button>
     </article>
   </section>
 
-  <section>
+  <section class="developers-in-cart">
     <h2>
       Your dev's cart
-      <small ng-bind="developersPanel.cart.length"></small>
+      <small ng-bind="developersShop.cart.length"></small>
     </h2>
-    <article class="developers" ng-repeat="user in developersPanel.cart">
+    <article class="developers" ng-repeat="user in developersShop.cart">
       <strong>
         <span ng-bind="user.name"></span>
       </strong>
       <small ng-bind="user.login"></small>
       <span ng-bind="(user.total | currency)"></span>
-      <input type="number" ng-model="user.hoursToWork" ng-change="developersPanel.calculateHours(user)" placeholder="Hours to work" min="1" value="1">
-      <button class="button button-outline" ng-click="developersPanel.removeFromCart(user)">
+      <input type="number" ng-model="user.hoursToWork" ng-change="developersShop.calculateHours(user)" placeholder="Hours to work" min="1" value="1">
+      <button class="button button-outline" ng-click="developersShop.removeFromCart(user)">
         <i class="fa fa-trash"></i>
         Remove from cart
       </button>
     </article>
   </section>
 
-  <section>
-    <article class="coupon" ng-show="developersPanel.cart.length">
-      <input type="text" placeholder="Discount coupon" ng-model="developersPanel.coupon.code" ng-disabled="developersPanel.coupon.used">
-      <button type="button" ng-click="developersPanel.useCoupon()" ng-disabled="developersPanel.coupon.used">Use!</button>
+  <section class="coupon">
+    <article ng-show="developersShop.cart.length">
+      <input type="text" placeholder="Discount coupon" ng-model="developersShop.coupon.code" ng-disabled="developersShop.coupon.used">
+      <button type="button" ng-click="developersShop.useCoupon()" ng-disabled="developersShop.coupon.used">Use!</button>
     </article>
   </section>
 
@@ -51,18 +51,18 @@
     <h2>Cart total</h2>
     <article>
       <p>
-        <i ng-show="developersPanel.coupon.used">
+        <i ng-show="developersShop.coupon.used">
           Coupon discount:
-          <small ng-bind="(developersPanel.coupon.value | currency)"></small>
+          <small ng-bind="(developersShop.coupon.value | currency)"></small>
         </i>
       </p>
       <p>
         <strong>
           Total:
-          <small ng-bind="(developersPanel.total | currency)"></small>
+          <small ng-bind="(developersShop.total | currency)"></small>
         </strong>
       </p>
-      <button type="button" ng-click="developersPanel.checkout()" ng-disabled="developersPanel.cart.length === 0">
+      <button type="button" ng-click="developersShop.checkout()" ng-disabled="developersShop.cart.length === 0">
         <i class="fa fa-check"></i>
         Check out
       </button>

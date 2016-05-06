@@ -17,11 +17,8 @@ module.exports = class Developers {
 
   getStatistics(){
     var promises = [];
-    console.log(this.members);
-    for (var member of this.members){
+    for (var member of this.members)
       promises.push(this.gitHubAPI.getUser(member.login));
-      console.log(member.login);
-    }
 
     return Promise.all(promises).then((response) => {
       for (let user of response) {
