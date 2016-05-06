@@ -1,40 +1,79 @@
+var MainTasks = require('./tasks/MainTasks.js');
+
 describe('Dev Shop', () => {
   beforeEach(() => {
     browser.get('http://localhost');
   });
-  
-  it('should add devs, remove them, and apply coupon', () => {
+
+  it('should add devs, remove one, and apply coupon', () => {
     var developersInCart, EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
-      element(by.css('.developers-available')).element(by.tagName('article'))
-        .element(by.tagName('button')).click();
+      MainTasks.addToCart()
+        .checkCartAmount(1)
+        .addToCart()
+        .checkCartAmount(2)
+        .removeFromCart()
+        .checkCartAmount(1)
+        .useCoupon()
+        .checkTotalValue('$9,200.00');
+    });
+  });
 
-      developersInCart = element.all(by.repeater('user in developersShop.cart'));
-      expect(developersInCart.count()).toEqual(1);
+  it('should add devs, and apply coupon', () => {
+    var developersInCart, EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
+      MainTasks.addToCart()
+        .checkCartAmount(1)
+        .addToCart()
+        .checkCartAmount(2)
+        .useCoupon()
+        .checkTotalValue('$10,540.00');
+    });
+  });
 
-      element(by.css('.developers-available')).element(by.tagName('article'))
-        .element(by.tagName('button')).click();
+  it('should add devs', () => {
+    var developersInCart, EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
+      MainTasks.addToCart()
+        .checkCartAmount(1)
+        .addToCart()
+        .checkCartAmount(2)
+        .checkTotalValue('$10,640.00');
+    });
+  });
 
-      developersInCart = element.all(by.repeater('user in developersShop.cart'));
-      expect(developersInCart.count()).toEqual(2);
+  it('should add devs, remove one, and apply coupon', () => {
+    var developersInCart, EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
+      MainTasks.addToCart()
+        .checkCartAmount(1)
+        .addToCart()
+        .checkCartAmount(2)
+        .removeFromCart()
+        .useCoupon()
+        .checkTotalValue('$9,200.00');
+    });
+  });
+
+  it('should add devs and remove them', () => {
+    var developersInCart, EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
+      MainTasks.addToCart()
+        .checkCartAmount(1)
+        .addToCart()
+        .checkCartAmount(2)
+        .removeFromCart()
+        .removeFromCart()
+        .checkCartAmount(0)
+        .checkTotalValue('$0.00');
+    });
+  });
+
+  it('should not add devs', () => {
+    var developersInCart, EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf($('.developers')), 5000).then(() => {
+      MainTasks.checkCartAmount(0)
+        .checkTotalValue('$0.00');
     });
   });
 });
-
-// describe('angularjs homepage todo list', function() {
-//   it('should add a todo', function() {
-//     browser.get('https://angularjs.org');
-//
-//     element(by.model('todoList.todoText')).sendKeys('write first protractor test');
-//     element(by.css('[value="add"]')).click();
-//
-//     var todoList = element.all(by.repeater('todo in todoList.todos'));
-//     expect(todoList.count()).toEqual(3);
-//     expect(todoList.get(2).getText()).toEqual('write first protractor test');
-//
-//     // You wrote your first test, cross it off the list
-//     todoList.get(2).element(by.css('input')).click();
-//     var completedAmount = element.all(by.css('.done-true'));
-//     expect(completedAmount.count()).toEqual(2);
-//   });
-// });
