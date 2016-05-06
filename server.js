@@ -3,7 +3,7 @@ const express = require('express'),
   bodyParser = require('body-parser');
 
 var app = express(),
-  port = 80;
+  port = (process.env.PORT || 80);
 
 var developers = {};
 
